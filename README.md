@@ -34,3 +34,12 @@ make
 
 If you don't specify CUDAFLAGS environment variable, you setup cuda flags later in ccmake interface, search variable CMAKE_CUDA_FLAGS.
 
+
+### PETSC version
+
+``` bash
+    # configure
+    export PETSC_DIR=/path/to/your/petsc/install/dir
+    cmake -DENABLE_PETSC=ON ..
+    make
+```

@@ -60,14 +60,16 @@
 set(PETSC_DIR "" CACHE PATH "Installation directory of PETSC library")
 if (NOT PETSC_FIND_QUIETLY AND NOT PETSC_DIR)
   message(STATUS "A cache variable, namely PETSC_DIR, has been set
-  to specify a custom installation directory of PETSC")
+  to specify a custom installation directory of PETSC : ${PETSC_DIR}")
 endif()
 
 # Use pkg-config to detect include/library dirs (if pkg-config is available)
 # -------------------------------------------------------------------------------------
 include(FindPkgConfig)
 find_package(PkgConfig QUIET)
-if( PKG_CONFIG_EXECUTABLE AND NOT PETSC_DIR )
+string(LENGTH "${PETSC_DIR}" PETSC_DIR_LENGTH)
+
+if( PKG_CONFIG_EXECUTABLE AND PETSC_DIR_LENGTH GREATER 0 )
   pkg_search_module(PETSC PETSc)
   if (NOT PETSC_FIND_QUIETLY)
     if (PETSC_FOUND AND PETSC_LIBRARIES)
@@ -90,6 +92,7 @@ endif()
 # consider using the env. var. PETSC_DIR if not directly given through the CMake cache var.
 if (NOT PETSC_DIR AND DEFINED ENV{PETSC_DIR})
   set(PETSC_DIR "$ENV{PETSC_DIR}")
+  message(STATUS "PETSC_DIR found in environment : ${PETSC_DIR}")
 endif()
 
 if (PETSC_DIR)

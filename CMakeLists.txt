@@ -7,7 +7,7 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 # custom cmake macros location
 list(INSERT CMAKE_MODULE_PATH 0 "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 list(INSERT CMAKE_MODULE_PATH 0 "${CMAKE_CURRENT_SOURCE_DIR}/cmake/cuda")
-list(INSERT CMAKE_MODULE_PATH 0 "${CMAKE_CURRENT_SOURCE_DIR}/cmake/petsc2")
+list(INSERT CMAKE_MODULE_PATH 0 "${CMAKE_CURRENT_SOURCE_DIR}/cmake/petsc")
 
 # Prevent from build in source tree
 include(preventBuildInSource)
@@ -17,6 +17,10 @@ include(initBuildType)
 
 # useful for debugging cmake
 include(print_target_properties)
+
+# To transform relative path from pkg-config into absolute
+include(FindPkgconfigLibrariesAbsolutePath)
+include(LibrariesAbsolutePath)
 
 # a simple macro to build executable avoiding copy paste
 #include(build_macro)
@@ -43,7 +47,7 @@ if (ENABLE_CUDA)
 endif(ENABLE_CUDA)
 
 #if (ENABLE_PETSC)
-  find_package(PETSc)
+  find_package(PETSC)
 #endif(ENABLE_PETSC)
 
 # other third party libraries
