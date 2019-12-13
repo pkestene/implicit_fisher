@@ -55,6 +55,37 @@ find_package(OpenMP)
 #find_package(OpenGL)
 #find_package(GLUT)
 
+find_package(MPI)
+if(MPI_CXX_FOUND)
+  message(STATUS "MPI support found")
+  message(STATUS "MPI compile flags: " ${MPI_CXX_COMPILE_FLAGS})
+  message(STATUS "MPI include path: " ${MPI_CXX_INCLUDE_PATH})
+  message(STATUS "MPI LINK flags path: " ${MPI_CXX_LINK_FLAGS})
+  message(STATUS "MPI libraries: " ${MPI_CXX_LIBRARIES})
+  
+  #set(CMAKE_EXE_LINKER_FLAGS ${MPI_CXX_LINK_FLAGS})
+  find_program(OMPI_INFO
+    NAMES ompi_info
+    HINTS ${MPI_CXX_LIBRARIES}/../bin)
+  
+  # Full command line to probe if cuda support in MPI implementation is enabled
+  # ompi_info --parsable --all | grep mpi_built_with_cuda_support:value
+  if (OMPI_INFO)
+    execute_process(COMMAND ${OMPI_INFO}
+      OUTPUT_VARIABLE _output)
+    if ( (_output MATCHES "smcuda") OR (USE_MPI_CUDA_AWARE_ENFORCED) )
+      message(STATUS "Found OpenMPI with CUDA support built.")
+    else()
+      message(WARNING "OpenMPI found, but it is not built with CUDA support.")
+      add_compile_options(-DMPI_CUDA_AWARE_OFF)
+    endif()
+  endif()
+else()
+  message(WARNING "Not compiling with MPI. Suppress this warning with -DUSE_MPI=OFF")
+  set(USE_MPI OFF)
+endif()
+
+
 # we also need extra stuff to make sure compile flags are correctly
 # passed to nvcc / host compiler
 include(protect_nvcc_flags)
@@ -94,11 +125,11 @@ message("  OpenMP compile flags : ${OpenMP_CXX_FLAGS}")
 message("")
 message("  PETSc enabled : ${ENABLE_PETSC}")
 if (ENABLE_PETSC)
-  message("PETSC_DIR       : ${PETSC_DIR}")
-  message("PETSC_ARCH      : ${PETSC_ARCH}")
-  message("PETSC_VERSION   : ${PETSC_VERSION}")
-  message("PETSC_INCLUDES  : ${PETSC_INCLUDE_DIR}")
-  message("PETSC_LIBRARIES : ${PETSC_LIBRARIES}")
+  message("PETSC_DIR          : ${PETSC_DIR}")
+  message("PETSC_ARCH         : ${PETSC_ARCH}")
+  message("PETSC_VERSION      : ${PETSC_VERSION}")
+  message("PETSC_INCLUDE_DIRS : ${PETSC_INCLUDE_DIRS}")
+  message("PETSC_LIBRARIES    : ${PETSC_LIBRARIES}")
 endif(ENABLE_PETSC)
 #message(" Other third party libraries")
 
