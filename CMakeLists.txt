@@ -7,6 +7,7 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 # custom cmake macros location
 list(INSERT CMAKE_MODULE_PATH 0 "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 list(INSERT CMAKE_MODULE_PATH 0 "${CMAKE_CURRENT_SOURCE_DIR}/cmake/cuda")
+list(INSERT CMAKE_MODULE_PATH 0 "${CMAKE_CURRENT_SOURCE_DIR}/cmake/petsc2")
 
 # Prevent from build in source tree
 include(preventBuildInSource)
@@ -24,7 +25,7 @@ include(print_target_properties)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)  
 
 option(ENABLE_CUDA "build cuda version" OFF)
-
+option(ENABLE_PETSC "build petsc version" OFF)
 
 #####################################################################
 if (ENABLE_CUDA)
@@ -40,6 +41,10 @@ if (ENABLE_CUDA)
   endif()
 
 endif(ENABLE_CUDA)
+
+#if (ENABLE_PETSC)
+  find_package(PETSc)
+#endif(ENABLE_PETSC)
 
 # other third party libraries
 find_package(OpenMP)
@@ -83,5 +88,14 @@ endif(ENABLE_CUDA)
 message("")
 message("  OpenMP compile flags : ${OpenMP_CXX_FLAGS}")
 message("")
-#message(" Thrid party libraries")
-#message("  OpenGL found : ${OPENGL_FOUND}")
+message("  PETSc enabled : ${ENABLE_PETSC}")
+if (ENABLE_PETSC)
+  message("PETSC_DIR       : ${PETSC_DIR}")
+  message("PETSC_ARCH      : ${PETSC_ARCH}")
+  message("PETSC_VERSION   : ${PETSC_VERSION}")
+  message("PETSC_INCLUDES  : ${PETSC_INCLUDE_DIR}")
+  message("PETSC_LIBRARIES : ${PETSC_LIBRARIES}")
+endif(ENABLE_PETSC)
+#message(" Other third party libraries")
+
+
