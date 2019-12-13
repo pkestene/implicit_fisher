@@ -23,16 +23,23 @@ include(print_target_properties)
 # always export compile commands database
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)  
 
+option(ENABLE_CUDA "build cuda version" OFF)
+
+
 #####################################################################
-enable_language(CUDA)
+if (ENABLE_CUDA)
 
-#find_package(CUDA REQUIRED)
-find_package(CUDALibs REQUIRED COMPONENTS CUBLAS )
+  enable_language(CUDA)
 
-if(NOT DEFINED CMAKE_CUDA_STANDARD)
-  set(CMAKE_CUDA_STANDARD 11)
-  set(CMAKE_CUDA_STANDARD_REQUIRED ON)
-endif()
+  #find_package(CUDA REQUIRED)
+  find_package(CUDALibs REQUIRED COMPONENTS CUBLAS )
+
+  if(NOT DEFINED CMAKE_CUDA_STANDARD)
+    set(CMAKE_CUDA_STANDARD 11)
+    set(CMAKE_CUDA_STANDARD_REQUIRED ON)
+  endif()
+
+endif(ENABLE_CUDA)
 
 # other third party libraries
 find_package(OpenMP)
@@ -43,8 +50,6 @@ find_package(OpenMP)
 # passed to nvcc / host compiler
 include(protect_nvcc_flags)
 include(protect_pthread_flag)
-
-option(ENABLE_CUDA "build cuda version" OFF)
 
 ##########################################################
 ##########################################################
@@ -63,15 +68,18 @@ add_subdirectory(src)
 message("//===================================================")
 message("  ${PROJECT_NAME} build configuration:")
 message("//===================================================")
-message("  CUDA compiler ID      : ${CMAKE_CUDA_COMPILER_ID}")
-message("  CUDA compiler Version : ${CMAKE_CUDA_COMPILER_VERSION}")
-message("  C++ Compiler : ${CMAKE_CXX_COMPILER_ID} "
-  "${CMAKE_CXX_COMPILER_VERSION} " 
-  "${CMAKE_CXX_COMPILER_WRAPPER}")
-message("    ${CMAKE_CXX_COMPILER}")
-message("  CUDA Compiler      : ${CMAKE_CUDA_COMPILER}")
-message("  CUDA Compiler exec : ${CUDA_NVCC_EXECUTABLE}")
-message("  CUDA Compile flags : ${CMAKE_CUDA_FLAGS}")
+message("ENABLE_CUDA : ${ENABLE_CUDA}")
+if(ENABLE_CUDA)
+  message("  CUDA compiler ID      : ${CMAKE_CUDA_COMPILER_ID}")
+  message("  CUDA compiler Version : ${CMAKE_CUDA_COMPILER_VERSION}")
+  message("  C++ Compiler : ${CMAKE_CXX_COMPILER_ID} "
+    "${CMAKE_CXX_COMPILER_VERSION} " 
+    "${CMAKE_CXX_COMPILER_WRAPPER}")
+  message("    ${CMAKE_CXX_COMPILER}")
+  message("  CUDA Compiler      : ${CMAKE_CUDA_COMPILER}")
+  message("  CUDA Compiler exec : ${CUDA_NVCC_EXECUTABLE}")
+  message("  CUDA Compile flags : ${CMAKE_CUDA_FLAGS}")
+endif(ENABLE_CUDA)
 message("")
 message("  OpenMP compile flags : ${OpenMP_CXX_FLAGS}")
 message("")
