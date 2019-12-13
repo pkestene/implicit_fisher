@@ -96,11 +96,11 @@ include(protect_pthread_flag)
 ##########################################################
 ##########################################################
 
-# build some executable
-add_subdirectory(src)
-
 # Testing
 #enable_testing()
+
+# build some executable
+add_subdirectory(src)
 
 #-------------------------------------------------------------------#
 # Configuration summary

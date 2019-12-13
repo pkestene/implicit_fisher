@@ -9,3 +9,5 @@ target_link_libraries(fisher_petsc
   PUBLIC
   MPI::MPI_CXX
   ${PETSC_LIBRARIES})
+
+file(COPY testref DESTINATION .)
