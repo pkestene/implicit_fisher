@@ -176,6 +176,16 @@ int main(int argc,char **argv)
   /* Run */
   ierr = TSSolve(ts,u);CHKERRQ(ierr);
 
+  {
+    SNESType snestype;
+    SNESGetType(snes, &snestype);
+    PetscPrintf(PETSC_COMM_WORLD,"SNES Type: %s\n", snestype);
+
+    KSPType ksptype;
+    KSPGetType(ksp, &ksptype);
+    PetscPrintf(PETSC_COMM_WORLD, "KSP type: %s\n", ksptype);
+  }
+
   /* Dump output */
   if(dump){
     ierr = DumpSolution(da,u,&ctx);CHKERRQ(ierr);
@@ -183,6 +193,7 @@ int main(int argc,char **argv)
   if(dumpmatlab){
     ierr = DumpSolutionMatlab(da,u);CHKERRQ(ierr);
   }
+
 
   /* Free allocated objects.
      C does not include destructors, so you must do this
