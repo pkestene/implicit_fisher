@@ -1,15 +1,22 @@
 /*******************************************
-Implicit time stepping implementation of a 2D diffusion problem
-Adapted to use PETSc by Patrick Sanan, from code by Ben Cumming and Gilles Fourestey
-
-This code is heavily commented for the newcomer.
-
-usage if you are using your own PETSc build:
-$PETSC_DIR/bin/petscmpiexec -n <numprocs> ./main -nx <nx> -ny <ny> -nt <nt> -t <t> [-dump 1] [-assemble 1]
-[Note that you should have PETSC_DIR and PETSC_ARCH defined in your environment in this case]
-
-if using the cray-petsc module, run as any other mpi code, using srun
-
+ * Implicit time stepping implementation of a 2D diffusion problem
+ * Adapted to use PETSc by Patrick Sanan, 
+ * from code by Ben Cumming and Gilles Fourestey
+ *
+* This code is heavily commented for the newcomer.
+*
+* usage if you are using your own PETSc build:
+* $PETSC_DIR/bin/petscmpiexec -n <numprocs> ./main -nx <nx> -ny <ny> -nt <nt> -t <t> [-dump 1] [-assemble 1]
+* [Note that you should have PETSC_DIR and PETSC_ARCH defined in your environment in this case]
+*
+*
+* Here the Fisher equation is of type dU/dt = f(U,t).
+* Petsc timestepping solves the PDE using the Newton iterations:
+* x(k+1) = x(k) - [f'(x(k))]^-1 * f(x(k))
+*
+* where f' isa short notation for the Jacobian matrix 
+* f' = \partial f \ partial U
+*
 *******************************************/
 
 static char help[] = "Time-stepping for a nonlinear 2D Diffusion Equation, in parallel.\n\
