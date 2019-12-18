@@ -5,7 +5,8 @@ mpirun -n 4 ./fisher_petsc -nx 99 -ny 88 -ts_monitor -snes_monitor -ksp_monitor
 mpirun -n 1 ./fisher_petsc -nx 16 -ny 16 -ts_monitor -snes_monitor -ksp_monitor -assemble 1 -pc_type gamg -dump 1
 ```
 
-Please note that currently data dump is only available when using one MPI task.
+Please note that currently data dump is only available when using one MPI task, but you can use petsc viewer capability, by adding option '-ts_monitor_solution_vtk fisher-%03D.vts'
+
 
 # run tests
 
