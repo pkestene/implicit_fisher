@@ -2,6 +2,7 @@ add_executable(fisher_petsc "")
 target_sources(fisher_petsc PRIVATE
   dump.c
   system.c
+  monitor.c
   main.c)
 
 target_include_directories(fisher_petsc PUBLIC ${PETSC_INCLUDE_DIRS})

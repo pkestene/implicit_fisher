@@ -25,6 +25,7 @@ Available options:\n\
 -nt <nt>          : set the number of time steps.\n\
 -t <t>            : set the final time.\n\
 -dump <1/0>       : dump output (uniprocessor only!).\n\
+-dump_vtk <dt_out%d> : dump output VTK file every dt_out time step.\n\
 -assemble <1/0>   : use an assembled Jacobian (useful to experiment with preconditioners) \n\
 \n";
 
@@ -39,11 +40,9 @@ Available options:\n\
 #include "appctx.h"
 
 /* Functions defined in other compilation units */
-extern PetscErrorCode RHSFunction(TS,PetscReal,Vec,Vec,void*);
-extern PetscErrorCode RHSJacobianAssembled(TS,PetscReal,Vec,Mat,Mat,void*);
-extern PetscErrorCode InitialConditions(Vec,AppCtx*);
-extern PetscErrorCode DumpSolution(DM,Vec,AppCtx*);
-extern PetscErrorCode DumpSolutionMatlab(DM,Vec);
+#include "dump.h"
+#include "system.h"
+#include "monitor.h"
 
 #undef __FUNCT__
 #define __FUNCT__ "main"
@@ -85,6 +84,8 @@ int main(int argc,char **argv)
     */
   ctx.nx      = 128;
   ctx.ny      = 128;
+  ctx.dump_vtk_interval = -1; // disabled
+  ierr = PetscStrcpy(ctx.baseFilename, "Fisher");CHKERRQ(ierr);
 
   /* Process command line arguments.
      PETSc maintains an internal "options database" which stores
@@ -99,6 +100,8 @@ int main(int argc,char **argv)
   ierr = PetscOptionsGetReal(NULL,NULL,"-t",&t,NULL);CHKERRQ(ierr);
   ierr = PetscOptionsGetBool(NULL,NULL,"-assemble",&assemble_jacobian,NULL);CHKERRQ(ierr);
   ierr = PetscOptionsGetBool(NULL,NULL,"-dump",&dump,NULL);CHKERRQ(ierr);
+  ierr = PetscOptionsGetInt(NULL, NULL, "-dump_vtk", &ctx.dump_vtk_interval, NULL); CHKERRQ(ierr);
+  ierr = PetscOptionsGetString(NULL, NULL, "-filename", &(ctx.baseFilename), PETSC_MAX_PATH_LEN, NULL);
   ierr = PetscOptionsGetBool(NULL,NULL,"-dumpmatlab",&dumpmatlab,NULL);CHKERRQ(ierr);
 
   /* For convenience, compute and store 1/h^2 */
@@ -164,6 +167,9 @@ int main(int argc,char **argv)
 
   /* Choose the method of time integration */
   ierr = TSSetType(ts,TSBEULER);CHKERRQ(ierr); /* Backwards Euler */
+  
+  /* monitoring : VTK output file */
+  ierr = TSMonitorSet(ts,MonitorVTK,&ctx,NULL);CHKERRQ(ierr);
 
   /* Extract the nonliner solver and linear solver to set some parameters */
   ierr = TSGetSNES(ts,&snes);CHKERRQ(ierr);
