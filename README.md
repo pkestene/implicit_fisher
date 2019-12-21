@@ -42,11 +42,11 @@ Here the Fisher system of equations is of type <img src="https://render.githubus
 
 Petsc time-stepping module solves the PDE using Newton iterations:
 
-<img src="https://render.githubusercontent.com/render/math?math=x^{k+1} = x^k - \left[ f'(x^k) \right]^{-1} * f(x^k)">
+<img src="https://render.githubusercontent.com/render/math?math=x^{k%2B1} = x^k - [ f'(x^k) ]^{-1} * f(x^k)">
 
 where <img src="https://render.githubusercontent.com/render/math?math=f'"> is a short notation for the Jacobian matrix :
 
-<img src="https://render.githubusercontent.com/render/math?math=f' = \partial f \ partial U">
+<img src="https://render.githubusercontent.com/render/math?math=f'=\frac{\partial f}{\partial U}">
 
 How to build ?
 
