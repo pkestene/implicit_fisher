@@ -101,7 +101,7 @@ int main(int argc,char **argv)
   ierr = PetscOptionsGetBool(NULL,NULL,"-assemble",&assemble_jacobian,NULL);CHKERRQ(ierr);
   ierr = PetscOptionsGetBool(NULL,NULL,"-dump",&dump,NULL);CHKERRQ(ierr);
   ierr = PetscOptionsGetInt(NULL, NULL, "-dump_vtk", &ctx.dump_vtk_interval, NULL); CHKERRQ(ierr);
-  ierr = PetscOptionsGetString(NULL, NULL, "-filename", &(ctx.baseFilename), PETSC_MAX_PATH_LEN, NULL);
+  ierr = PetscOptionsGetString(NULL, NULL, "-filename", ctx.baseFilename, PETSC_MAX_PATH_LEN, NULL);
   ierr = PetscOptionsGetBool(NULL,NULL,"-dumpmatlab",&dumpmatlab,NULL);CHKERRQ(ierr);
 
   /* For convenience, compute and store 1/h^2 */
