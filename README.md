@@ -42,4 +42,7 @@ If you don't specify CUDAFLAGS environment variable, you setup cuda flags later 
     export PETSC_DIR=/path/to/your/petsc/install/dir
     cmake -DENABLE_PETSC=ON ..
     make
+    # example run with one output every 10 time steps
+    cd build/src/petsc
+    mpirun -np 4 ./fisher_petsc -ts_monitor -snes_monitor -ksp_monitor -ts_view -filename fisher -dump_vtk 10
 ```
