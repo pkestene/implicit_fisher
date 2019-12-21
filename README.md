@@ -64,3 +64,5 @@ Example run ?
     cd build/src/petsc
     mpirun -np 4 ./fisher_petsc -ts_monitor -snes_monitor -ksp_monitor -ts_view -filename fisher -dump_vtk 10
 ```
+
+Sub-directory utils contains a helper script to build PETSc from sources on Ubuntu 18.04
