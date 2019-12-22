@@ -175,8 +175,13 @@ int main(int argc,char **argv)
   }
 
   /* Set the timestep and final time */
+#if PETSC_VERSION_GE(3, 8, 0)
+  ierr = TSSetTimeStep(ts,((PetscReal) t)/nt);CHKERRQ(ierr);
+  ierr = TSSetMaxTime(ts,t);CHKERRQ(ierr);
+#else
   ierr = TSSetTimeStep(ts,((PetscReal) t)/nt);CHKERRQ(ierr);
   ierr = TSSetDuration(ts,nt,t);CHKERRQ(ierr);
+#endif
   ierr = TSSetExactFinalTime(ts,TS_EXACTFINALTIME_MATCHSTEP);CHKERRQ(ierr);
 
   /* Choose the method of time integration */
