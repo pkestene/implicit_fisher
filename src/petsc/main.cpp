@@ -119,6 +119,11 @@ int main(int argc,char **argv)
    */
   ierr = DMDACreate2d(PETSC_COMM_WORLD, DM_BOUNDARY_NONE, DM_BOUNDARY_NONE,DMDA_STENCIL_STAR,ctx.nx,ctx.ny,PETSC_DECIDE,PETSC_DECIDE,1,1,NULL,NULL,&da);CHKERRQ(ierr);
 
+#if PETSC_VERSION_GE(3, 8, 0)
+  ierr = DMSetFromOptions(da);CHKERRQ(ierr);
+  ierr = DMSetUp(da);CHKERRQ(ierr);
+#endif
+
   /* Specify uniform coordinates on the 2D domain. The number of points in the x direction, which is of unit width, determines the size of the square cells */
   ierr = DMDASetUniformCoordinates(da,0.0,1.0,0.0,((PetscReal)ctx.ny)/ctx.nx,0,0);CHKERRQ(ierr);
 
