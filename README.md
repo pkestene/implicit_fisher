@@ -27,7 +27,7 @@ See https://github.com/CLIUtils/modern_cmake
 export CUDAFLAGS="-arch=sm_60 --expt-extended-lambda"
 mkdir build
 cd build
-cmake -DENABLE_CUDA ..
+cmake -DENABLE_CUDA=ON ..
 make
 # then you can run the application
 ./src/cuda/fisher_cuda 128 128 10 0.001
