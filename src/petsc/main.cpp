@@ -78,6 +78,15 @@ int main(int argc,char **argv)
       */
   PetscInitialize(&argc,&argv,(char*)0,help);
 
+  {
+    char petsc_version[128];
+    ierr = PetscGetVersion(petsc_version,sizeof(petsc_version));CHKERRQ(ierr);
+    
+    PetscPrintf(PETSC_COMM_WORLD,"########################################\n");
+    PetscPrintf(PETSC_COMM_WORLD,"Running petsc version: %s\n", petsc_version);
+    PetscPrintf(PETSC_COMM_WORLD,"########################################\n");
+  }
+
   /* Default problem sizes.
      Note that this is only done here to give an interface similar to the
      previous examples. This information is stored by a DMDA object as well.
