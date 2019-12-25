@@ -4,7 +4,7 @@ A miniapp to explore several parallel implementations of an implicit time integr
 
 The code here is just slightly adapted from https://github.com/eth-cscs/SummerSchool2017; we've just added a cmake-based build system and modify vtk outputs.
 
-Regarding petsc, the original version uses snes (non-linear solver) and ts (time-stepping) modules. We added a naive version, closer to the CUDA naive GMRES implementation. In the naive version, we controlled precisely the time and space discretization while in the original petsc version, we just specify the RHS and RHS jacobian and let PETSC control the solver.
+Regarding petsc, the original version uses snes (non-linear solver) and ts (time-stepping) modules. The original CUDA version explicitely solves the same problem, at each time step, perform Newton iterations ofthe non-linear system, and for each Newton iteration, perform a Conjugate Gradient solve of the linearized system.
 
 ## Download
 
