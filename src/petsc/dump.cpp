@@ -1,6 +1,6 @@
 #include <petscviewer.h>
 #include <petscdmda.h>
-#include "appctx.h"
+#include "AppCtx.h"
 
 #undef __FUNCT__
 #define __FUNCT__ "DumpSolution"

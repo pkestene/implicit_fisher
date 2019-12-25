@@ -5,7 +5,7 @@
 #include <petscmat.h>
 #include <petscts.h>
 
-#include "appctx.h"
+#include "AppCtx.h"
 
 PetscErrorCode RHSFunction(TS,PetscReal,Vec,Vec,void*);
 PetscErrorCode RHSJacobianAssembled(TS,PetscReal,Vec,Mat,Mat,void*);

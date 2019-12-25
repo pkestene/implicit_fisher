@@ -3,7 +3,7 @@
 
 #include <petscts.h>
 
-#include "appctx.h"
+#include "AppCtx.h"
 
 PetscErrorCode MonitorVTK(TS ts, 
                           PetscInt stepnum, 

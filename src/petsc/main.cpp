@@ -37,7 +37,7 @@ Available options:\n\
    This provides a way to pass information aboout the problem to solvers and
    other routines, without the overhead of C++
 */
-#include "appctx.h"
+#include "AppCtx.h"
 
 /* Functions defined in other compilation units */
 #include "dump.h"

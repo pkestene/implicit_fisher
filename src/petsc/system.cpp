@@ -1,7 +1,7 @@
 #include <petscts.h>
 #include <petscdm.h>
 #include <petscdmda.h>
-#include "appctx.h"
+#include "AppCtx.h"
 
 /* A function that assembles the Jacobian as a distributed sparse
    matrix */

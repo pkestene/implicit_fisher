@@ -4,7 +4,7 @@
 #include <petscts.h>
 
 /* A user-defined context to store problem data */
-typedef struct {
+struct AppCtx {
 
   DM          da;             /* distributed array data structure */
   Vec         u_local;        /* local ghosted approximate solution vector */
@@ -13,6 +13,6 @@ typedef struct {
   PetscInt    dump_vtk_interval; /* time steps between two VTK dumps */
   char        baseFilename[PETSC_MAX_PATH_LEN];
 
-} AppCtx;
+};
 
 #endif // FISHER_APPCTX_H
