@@ -1,6 +1,10 @@
 # implicit_fisher
+
 A miniapp to explore several parallel implementations of an implicit time integration solver of the 2D [Fisher system](https://en.wikipedia.org/wiki/Fisher%27s_equation) ([reaction-diffusion PDE](https://en.wikipedia.org/wiki/Reaction%E2%80%93diffusion_system)).
+
 The code here is just slightly adapted from https://github.com/eth-cscs/SummerSchool2017; we've just added a cmake-based build system and modify vtk outputs.
+
+Regarding petsc, the original version uses snes (non-linear solver) and ts (time-stepping) modules. We added a naive version, closer to the CUDA naive GMRES implementation. In the naive version, we controlled precisely the time and space discretization while in the original petsc version, we just specify the RHS and RHS jacobian and let PETSC control the solver.
 
 ## Download
 
