@@ -69,4 +69,13 @@ Example run ?
     mpirun -np 4 ./fisher_petsc -ts_monitor -snes_monitor -ksp_monitor -ts_view -filename fisher -dump_vtk 10
 ```
 
+If you enabled CUDA in your PETSc build, you can try this:
+
+``` bash
+    # first the CPU version
+    mpirun -np 4 ./fisher_petsc -ts_monitor -snes_monitor -ksp_monitor -ts_view -nx 512 -ny 512
+    # then the GPU version
+    ./fisher -dm_vec_type cuda -dm_mat_type aijcusparse -nx 512 -ny 512 -cuda_view 
+```
+
 Sub-directory utils contains a helper script to build PETSc from sources on Ubuntu 18.04
